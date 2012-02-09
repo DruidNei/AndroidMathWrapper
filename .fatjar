@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Thu Feb 02 16:44:04 CET 2012
+onejar.license.required=false
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=AndroidMathWrapper_fat.jar
+manifest.mergeall=true
+manifest.mainclass=
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=<po|AndroidMathWrapper>~druid/~math/~wrapper/~AndroidMathWrapperTest.class;<po|AndroidMathWrapper>~druid/~math/~wrapper/~R$attr.class;<po|AndroidMathWrapper>~druid/~math/~wrapper/~R$drawable.class;<po|AndroidMathWrapper>~druid/~math/~wrapper/~R$layout.class;<po|AndroidMathWrapper>~druid/~math/~wrapper/~R$string.class;<po|AndroidMathWrapper>~druid/~math/~wrapper/~R.class
+includes=
