@@ -8,11 +8,44 @@ import java.lang.Math;
 public class AndroidMathWrapper implements AndroidMathWrapperInterface{
 	@Override
 	public double[] muged_1D_correlation(double[] fsignal, double[] ssignal) {
+		//add padding with zeros
+		//extend signals
+		double logNbase2 =  Math.log(fsignal.length+ssignal.length-1)/Math.log(2);
+		int len = (int)Math.pow(2.0,Math.ceil(logNbase2));
 		
-		return null;
+		DoubleFFT_1D dfft1d = new DoubleFFT_1D(len);
 		
-		// TODO Auto-generated method stub
+		double[] signalExtL = new double[2*len];
+		for(int i=0; i < (fsignal.length+ssignal.length-1); i++) {
+			if(i > fsignal.length-2)
+				signalExtL[2*i] = ssignal[i-(ssignal.length-1)];				
+		}
 		
+		double[] signalExtR = new double[2*len];
+		for(int i=0; i < fsignal.length; i++) {
+			signalExtR[2*i] = fsignal[i];				
+		}
+		
+		dfft1d.complexForward(signalExtR);
+		dfft1d.complexForward(signalExtL);
+		
+		for(int i = 0; i < signalExtR.length/2; i++) {
+			signalExtR[2*i+1] = -1*signalExtR[2*i+1];
+		}
+		double xcorellation[] = new double[signalExtL.length];
+		for(int i = 0; i < signalExtL.length/2; i++) {
+			//complex multiplication
+			xcorellation[2*i] = signalExtL[2*i]*signalExtR[2*i] - signalExtL[2*i+1]*signalExtR[2*i+1];
+			xcorellation[2*i+1] = signalExtL[2*i]*signalExtR[2*i+1] + signalExtL[2*i+1]*signalExtR[2*i];
+		}
+		dfft1d.complexInverse(xcorellation, true);	 //scaling performed
+		double[] outcorrelation = new double[fsignal.length+ssignal.length-1];
+		
+		for(int i = 0; i < outcorrelation.length; i++) {
+			outcorrelation[i] = xcorellation[2*i]; 
+		}
+		
+		return outcorrelation;
 	}
 
 	@Override
