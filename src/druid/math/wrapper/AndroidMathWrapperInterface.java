@@ -38,6 +38,16 @@ public interface AndroidMathWrapperInterface {
 	MugedComplex[] muged_1D_fft(double[] signal); //muged_array& signal, muged_array& spectrum) = 0;
 
 	/**
+	 * Calculates 1D Inverse Fast Fourier Transform. If signal length is not power of two,
+	 * signal is padded with zeros to the next power of two.
+	 * 
+	 * @param spectrum - 1D signal in frequency domain
+	 * @return signal - result in time domain
+	 * 
+	 */
+	double[] muged_1D_ifft(MugedComplex[] spectrum); //muged_array& signal, muged_array& spectrum) = 0;
+	
+	/**
 	 * @fn muged_2D_fft(muged_matrix& ssignal, muged_matrix& spectrum)
 	 *
 	 * Calculates 2D Fast Fourier Transform

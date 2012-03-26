@@ -122,5 +122,36 @@ public class AndroidMathWrapper implements AndroidMathWrapperInterface{
 		StandardDeviation sd = new StandardDeviation();
 		return sd.evaluate(signal);
 	}
+
+	@Override
+	public double[] muged_1D_ifft(MugedComplex[] spectrum) {
+
+		int len = 0;
+		double logNbase2 =  Math.log(spectrum.length)/Math.log(2);   
+		
+		len = (int)Math.pow(2.0,Math.ceil(logNbase2));
+		DoubleFFT_1D dfft1d = new DoubleFFT_1D(len);
+		double[] signal_ext = new double[2*len];
+		for(int i=0; i < spectrum.length; i++) {
+			signal_ext[2*i] = spectrum[i].getReal();
+			signal_ext[2*i+1] = spectrum[i].getImaginary();	
+		}
+		dfft1d.complexInverse(signal_ext, true);
+		
+		double[] signal = new double[len];
+		
+		for(int i=0; i < len; i++) {
+			signal[i] = signal_ext[2*i]; 
+		}
+		/*
+		MugedComplex[] outSpectrum = new MugedComplex[len];
+		
+		for(int i=0; i < len; i++) {
+			outSpectrum[i] = new MugedComplex(signal_ext[2*i], signal_ext[2*i+1]);				
+		}
+		*/
+		return signal;
+		
+	}
 	
 }
